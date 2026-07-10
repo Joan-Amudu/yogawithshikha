@@ -199,6 +199,7 @@
     overflow: hidden;
     position: relative;
   }
+  /* ── 
   .about-frame-icon {
     position: absolute;
     top: 50%; left: 50%;
@@ -206,6 +207,7 @@
     font-size: 7rem;
     opacity: .4;
   }
+  ── */
   .about-frame-border {
     position: absolute;
     top: -14px; left: -14px;
