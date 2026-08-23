@@ -352,23 +352,26 @@
 
       <!-- Form side -->
       <div class="col-lg-7 reveal">
-        <form>
+        <form id="contactForm" novalidate>
           <div class="row g-3">
             <div class="col-sm-6">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-control" placeholder="Your first name">
+              <label class="form-label">First Name *</label>
+              <input id="firstName" type="text" class="form-control" placeholder="Your first name" required>
+              <div class="invalid-feedback">Please enter your first name.</div>
             </div>
             <div class="col-sm-6">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-control" placeholder="Your last name">
+              <label class="form-label">Last Name *</label>
+              <input id="lastName" type="text" class="form-control" placeholder="Your last name" required>
+              <div class="invalid-feedback">Please enter your last name.</div>
             </div>
             <div class="col-12">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-control" placeholder="you@example.com">
+              <label class="form-label">Email Address *</label>
+              <input id="fromEmail" type="email" class="form-control" placeholder="you@example.com" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
             </div>
             <div class="col-12">
               <label class="form-label">I'm interested in</label>
-              <select class="form-select">
+              <select id="interest" class="form-select">
                 <option value="">Select a topic…</option>
                 <option>Classes</option>
                 <option>Retreats</option>
@@ -378,11 +381,31 @@
               </select>
             </div>
             <div class="col-12">
-              <label class="form-label">Message</label>
-              <textarea class="form-control" rows="5" placeholder="Tell me a little about yourself and what you're looking for…"></textarea>
+              <label class="form-label">Message *</label>
+              <textarea id="message" class="form-control" rows="5" placeholder="Tell me a little about yourself and what you're looking for…" required></textarea>
+              <div class="invalid-feedback">Please enter a message.</div>
             </div>
+ 
+            <!-- Success / Error alerts -->
             <div class="col-12">
-              <button type="submit" class="btn-terra">Send Message</button>
+              <div id="formSuccess" class="alert d-none" role="alert"
+                style="border-radius:0; border:1px solid #7a8c6e; background:#f5f0e8; color:#2e1f14; font-size:.88rem;">
+                ✓ &nbsp;Thank you! Your message has been sent. Shikha will be in touch within 48 hours.
+              </div>
+              <div id="formError" class="alert d-none" role="alert"
+                style="border-radius:0; border:1px solid #c4714a; background:#fff5f0; color:#2e1f14; font-size:.88rem;">
+                ✕ &nbsp;Something went wrong. Please try again or email directly at shikha.shivangni@gmail.com
+              </div>
+            </div>
+ 
+            <div class="col-12">
+              <button type="submit" id="submitBtn" class="btn-terra d-flex align-items-center gap-2">
+                <span id="btnText">Send Message</span>
+                <span id="btnSpinner" class="d-none">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Sending…
+                </span>
+              </button>
             </div>
           </div>
         </form>
