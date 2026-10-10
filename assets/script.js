@@ -1,8 +1,5 @@
-  // ── EmailJS init ──
-  emailjs.init('1OxbY7GuKjdokfBnv');
- 
-  // ── Navbar shadow on scroll ──
-  window.addEventListener('scroll', () => {
+   // ── Navbar shadow on scroll ──
+   window.addEventListener('scroll', () => {
     document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 20);
   });
  
@@ -12,7 +9,7 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
  
-  // ── Contact form submission ──
+  // ── Contact form — Formspree ──
   const form        = document.getElementById('contactForm');
   const submitBtn   = document.getElementById('submitBtn');
   const btnText     = document.getElementById('btnText');
@@ -20,7 +17,7 @@
   const formSuccess = document.getElementById('formSuccess');
   const formError   = document.getElementById('formError');
  
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
  
     // Reset alerts
@@ -38,35 +35,31 @@
     btnSpinner.classList.remove('d-none');
     submitBtn.disabled = true;
  
-    const firstName = document.getElementById('firstName').value.trim();
-    const lastName  = document.getElementById('lastName').value.trim();
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
  
-    const templateParams = {
-      from_name:  `${firstName} ${lastName}`,
-      from_email: document.getElementById('fromEmail').value.trim(),
-      interest:   document.getElementById('interest').value || 'Not specified',
-      message:    document.getElementById('message').value.trim(),
-      to_name:    'Shikha',
-    };
- 
-    emailjs.send('service_qiiz03m', 'template_blslbf8', templateParams)
-      .then(() => {
-        // Success
+      if (response.ok) {
         formSuccess.classList.remove('d-none');
         form.reset();
         form.classList.remove('was-validated');
         formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      })
-      .catch((err) => {
-        // Error
-        console.error('EmailJS error:', err);
+      } else {
+        const data = await response.json();
+        console.error('Formspree error:', data);
         formError.classList.remove('d-none');
         formError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      })
-      .finally(() => {
-        // Restore button
-        btnText.classList.remove('d-none');
-        btnSpinner.classList.add('d-none');
-        submitBtn.disabled = false;
-      });
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+      formError.classList.remove('d-none');
+      formError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } finally {
+      btnText.classList.remove('d-none');
+      btnSpinner.classList.add('d-none');
+      submitBtn.disabled = false;
+    }
   });
